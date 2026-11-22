@@ -1,0 +1,167 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-page: #070d18;
+  --color-surface: #0f1a2c;
+  --color-line: #22344f;
+  --color-ink: #e8eef8;
+  --color-muted: #94a6c0;
+  --color-accent: #60a5fa;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+  --color-card-ink: #eef3fb;
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --shadow-card: 0 1.125rem 2.25rem rgb(0 0 0 / 0.5), 0 0 2.75rem rgb(37 99 235 / 0.16);
+  --shadow-card-selected:
+    0 0 0 0.125rem var(--color-accent), 0 1.125rem 2.25rem rgb(0 0 0 / 0.5),
+    0 0 3.25rem rgb(59 130 246 / 0.38);
+  --shadow-card-sm: 0 0.1875rem 0.5rem rgb(0 0 0 / 0.45);
+  --shadow-card-sm-selected: 0 0 0 0.125rem var(--color-accent), 0 0 0.5rem rgb(59 130 246 / 0.45);
+
+  --animate-card-float: card-float 5.5s ease-in-out infinite;
+
+  @keyframes card-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-0.5625rem);
+    }
+  }
+}
+
+@layer base {
+  html {
+    font-size: clamp(1rem, 0.75rem + 0.3vw, 1.25rem);
+    color-scheme: dark;
+    @apply bg-page font-sans text-ink antialiased;
+  }
+
+  body {
+    min-height: 100svh;
+    background:
+      radial-gradient(70rem 40rem at 15% -10%, rgb(37 99 235 / 0.16), transparent 70%),
+      radial-gradient(50rem 30rem at 100% 0%, rgb(14 165 233 / 0.08), transparent 70%);
+    background-attachment: fixed;
+  }
+}
+
+@utility card-midnight {
+  --card-glow: rgb(59 130 246 / 0.42);
+  --card-highlight: rgb(147 197 253 / 0.5);
+  background-image: linear-gradient(
+    112deg,
+    #05070c 0%,
+    #0c1524 36%,
+    #123a68 50%,
+    #0a1422 64%,
+    #04060a 100%
+  );
+}
+
+@utility card-ocean {
+  --card-glow: rgb(56 189 248 / 0.4);
+  --card-highlight: rgb(186 230 253 / 0.48);
+  background-image: linear-gradient(
+    112deg,
+    #06182f 0%,
+    #0b3263 36%,
+    #1658a8 50%,
+    #0b2f5c 64%,
+    #051428 100%
+  );
+}
+
+@utility card-graphite {
+  --card-glow: rgb(148 163 184 / 0.28);
+  --card-highlight: rgb(226 232 240 / 0.34);
+  background-image: linear-gradient(
+    112deg,
+    #0b0d11 0%,
+    #1c2028 36%,
+    #363c47 50%,
+    #1a1d24 64%,
+    #090a0d 100%
+  );
+}
+
+@utility card-steel {
+  --card-glow: rgb(165 180 200 / 0.28);
+  --card-highlight: rgb(226 232 240 / 0.32);
+  background-image: linear-gradient(
+    112deg,
+    #18222f 0%,
+    #2c3b4e 36%,
+    #4a5f79 50%,
+    #2a3849 64%,
+    #141c27 100%
+  );
+}
+
+@utility card-sheen {
+  &::before {
+    position: absolute;
+    inset: -20%;
+    content: '';
+    background: linear-gradient(
+      112deg,
+      transparent 34%,
+      var(--card-glow) 46%,
+      var(--card-highlight) 50%,
+      var(--card-glow) 54%,
+      transparent 66%
+    );
+    filter: blur(0.875rem);
+  }
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: linear-gradient(
+      112deg,
+      transparent 49.7%,
+      rgb(255 255 255 / 0.22) 50%,
+      transparent 50.3%
+    );
+  }
+}
+
+@utility card-glare {
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    rgb(255 255 255 / 0.26),
+    transparent 54%
+  );
+}
+
+@utility card-tilt {
+  transform: perspective(62.5rem) rotateX(var(--pose-x, 0deg)) rotateY(var(--pose-y, 0deg))
+    rotateZ(var(--pose-z, 0deg));
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.25s ease;
+
+  [data-tilting] & {
+    transform: perspective(62.5rem) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg))
+      scale(1.02);
+    transition:
+      transform 0.09s linear,
+      box-shadow 0.25s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
