@@ -211,3 +211,7 @@ Tutarlar kuruş cinsinden tutulur, yani `25_000_000` değeri 250.000,00 TL anlam
 - Proje örnek veri kullanır ve backend içermez. Banka, kart bilgileri ve döviz kurları kurgusaldır.
 - Kartlarda yalnızca son dört hane tutulur. Tam kart numarasını veya güvenlik kodunu frontend kodunda saklamayın.
 - Visa, Mastercard ve Troy işaretleri sadeleştirilmiş temsillerdir. Gerçek bir üründe kullanmadan önce resmi görsellerle değiştirin ve her markanın kullanım kurallarına uyun.
+
+## Lisans
+
+[MIT](../LICENSE)

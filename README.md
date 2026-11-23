@@ -211,3 +211,7 @@ Amounts use minor units, so `25_000_000` is 250,000.00 TL. Debit and prepaid car
 - This project uses sample data and has no backend. The bank, card details and exchange rates are fictional.
 - Cards store only the last four digits. Do not keep full card numbers or security codes in frontend code.
 - The Visa, Mastercard and Troy marks are simplified placeholders. Replace them with official assets and follow each brand's guidelines before using this in a real product.
+
+## License
+
+[MIT](LICENSE)
