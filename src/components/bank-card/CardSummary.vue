@@ -1,95 +1,82 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import {
-  CARD_AMOUNT_LABELS,
-  CARD_KIND_LABELS,
-  CARD_NETWORK_LABELS,
-  CARD_STATUS_LABELS,
-} from '@/constants/card'
-import type { BankCardData } from '@/types/card'
-import { formatExpiry, formatMoney, getSpendableMinor } from '@/utils/card'
+import { Shatter } from 'shatter-morph/vue'
+import { BALANCE_SHATTER } from '@/constants/shatter'
+import { useI18n } from '@/i18n'
+import type { BankCardData, CurrencyCode } from '@/types/card'
+import { formatConverted, getSpendableMinor } from '@/utils/card'
 import { CARD_STATUS_TEXT_CLASSES } from './cardStyles'
 
-const { card } = defineProps<{ card: BankCardData }>()
+const { card, currency } = defineProps<{
+  card: BankCardData
+  currency: CurrencyCode
+}>()
 
-const amountText = computed(() => formatMoney(getSpendableMinor(card), card.currency))
+const { locale, t } = useI18n()
+
+function inCurrency(amountMinor: number) {
+  return formatConverted(amountMinor, card.currency, currency, locale.value)
+}
+
+const amountText = computed(() => inCurrency(getSpendableMinor(card)))
 
 const creditUsage = computed(() => {
   if (card.kind !== 'credit') return null
   const usedMinor = card.limitMinor - card.availableMinor
   return {
     percent: card.limitMinor > 0 ? Math.round((usedMinor / card.limitMinor) * 100) : 0,
-    used: formatMoney(usedMinor, card.currency),
-    limit: formatMoney(card.limitMinor, card.currency),
+    used: inCurrency(usedMinor),
+    limit: inCurrency(card.limitMinor),
   }
 })
 </script>
 
 <template>
-  <section
-    class="@container flex min-w-0 flex-col rounded-lg border-[0.0625rem] border-line bg-surface p-4 sm:p-5"
-    aria-label="Kart özeti"
-    aria-live="polite"
-  >
-    <div class="flex items-start justify-between gap-3">
-      <div class="min-w-0">
-        <h2 class="truncate text-lg leading-snug font-semibold">{{ card.productName }}</h2>
-        <p class="mt-0.5 text-sm text-muted">
-          {{ CARD_KIND_LABELS[card.kind] }} · {{ CARD_NETWORK_LABELS[card.network] }} · ••••
-          {{ card.last4 }}
-        </p>
-      </div>
-      <span
-        class="flex-none rounded-xs border-[0.0625rem] border-current px-2 py-0.5 text-xs font-semibold"
-        :class="CARD_STATUS_TEXT_CLASSES[card.status]"
-      >
-        {{ CARD_STATUS_LABELS[card.status] }}
-      </span>
-    </div>
-
-    <div class="flex flex-1 flex-col justify-center py-3">
-      <p class="text-[0.8125rem] text-muted">{{ CARD_AMOUNT_LABELS[card.kind] }}</p>
+  <Shatter :value="currency" :options="BALANCE_SHATTER">
+    <div class="@container flex flex-col" aria-live="polite">
       <p
-        class="mt-0.5 text-[length:clamp(1.375rem,11cqw,2rem)] leading-tight font-semibold tracking-tight tabular-nums"
+        class="text-[length:clamp(1.5rem,11.5cqw,2.625rem)] leading-tight font-bold tracking-tight whitespace-nowrap tabular-nums"
       >
         {{ amountText }}
       </p>
 
-      <div class="mt-3 min-h-10">
+      <div class="mt-3 min-h-14">
         <template v-if="creditUsage">
           <div
-            class="h-1.5 overflow-hidden rounded-[100rem] bg-line"
+            class="h-1.5 overflow-hidden rounded-pill bg-white/10 [contain:size_layout]"
             role="progressbar"
-            aria-label="Kullanılan limit"
+            :aria-label="t.balance.used"
             aria-valuemin="0"
             aria-valuemax="100"
             :aria-valuenow="creditUsage.percent"
           >
             <div
-              class="h-full rounded-[100rem] bg-accent transition-[width] duration-300 motion-reduce:transition-none"
+              class="h-full rounded-pill bg-accent transition-[width] duration-300"
               :style="{ width: `${creditUsage.percent}%` }"
             />
           </div>
-          <div
-            class="mt-1.5 flex flex-wrap justify-between gap-x-3 text-xs text-muted tabular-nums"
-          >
-            <span>Kullanılan {{ creditUsage.used }}</span>
-            <span>Limit {{ creditUsage.limit }}</span>
-          </div>
+          <dl class="mt-2 flex justify-between gap-3 text-xs tabular-nums">
+            <div>
+              <dt class="text-muted">{{ t.balance.used }}</dt>
+              <dd class="mt-0.5 font-medium whitespace-nowrap">{{ creditUsage.used }}</dd>
+            </div>
+            <div class="text-right">
+              <dt class="text-muted">{{ t.balance.limit }}</dt>
+              <dd class="mt-0.5 font-medium whitespace-nowrap">{{ creditUsage.limit }}</dd>
+            </div>
+          </dl>
         </template>
-        <p v-else class="text-xs text-muted">Para birimi {{ card.currency }}</p>
+        <p v-else class="text-label text-muted">
+          {{ card.productName }} ·
+          <span class="font-medium" :class="CARD_STATUS_TEXT_CLASSES[card.status]">
+            {{ t.card.statuses[card.status] }}
+          </span>
+        </p>
       </div>
-    </div>
 
-    <dl class="grid grid-cols-2 gap-3 border-t-[0.0625rem] border-line pt-3">
-      <div>
-        <dt class="text-xs text-muted">Son kullanma</dt>
-        <dd class="mt-0.5 text-sm font-semibold tabular-nums">{{ formatExpiry(card.expiry) }}</dd>
-      </div>
-      <div>
-        <dt class="text-xs text-muted">Temassız ödeme</dt>
-        <dd class="mt-0.5 text-sm font-semibold">{{ card.contactless ? 'Açık' : 'Kapalı' }}</dd>
-      </div>
-    </dl>
-  </section>
+      <p class="mt-1 text-xs text-muted" :class="{ invisible: currency === card.currency }">
+        {{ t.balance.converted }}
+      </p>
+    </div>
+  </Shatter>
 </template>

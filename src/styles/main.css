@@ -1,44 +1,40 @@
-@import 'tailwindcss';
+@import 'tailwindcss' source('..');
+
+@property --flip {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
 
 @theme {
-  --color-page: #070d18;
-  --color-surface: #0f1a2c;
-  --color-line: #22344f;
-  --color-ink: #e8eef8;
-  --color-muted: #94a6c0;
-  --color-accent: #60a5fa;
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-danger: #f87171;
-  --color-card-ink: #eef3fb;
+  --color-page: #0f1012;
+  --color-line: rgb(255 255 255 / 0.09);
+  --color-raised: #2a2b30;
+  --color-ink: #f4f3ef;
+  --color-muted: #a1a1a7;
+  --color-accent: #d9bd8a;
+  --color-success: #62cfa0;
+  --color-warning: #e6c36a;
+  --color-danger: #ef9090;
+  --color-card-ink: #f6f0e4;
 
-  --radius-xs: 0.25rem;
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
+  --radius-pill: 100rem;
+
+  --text-2xs: 0.6875rem;
+  --text-label: 0.8125rem;
+
+  --aspect-card: 85.6 / 53.98;
 
   --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --shadow-card: 0 1.125rem 2.25rem rgb(0 0 0 / 0.5), 0 0 2.75rem rgb(37 99 235 / 0.16);
+  --shadow-hairline: inset 0 0 0 0.0625rem var(--color-line);
+  --shadow-hairline-accent: inset 0 0 0 0.0625rem var(--color-accent);
+  --shadow-card: 0 1.5rem 3rem -0.75rem rgb(0 0 0 / 0.7), 0 0.375rem 1rem rgb(0 0 0 / 0.35);
   --shadow-card-selected:
-    0 0 0 0.125rem var(--color-accent), 0 1.125rem 2.25rem rgb(0 0 0 / 0.5),
-    0 0 3.25rem rgb(59 130 246 / 0.38);
+    0 0 0 0.125rem var(--color-accent), 0 1.5rem 3rem -0.75rem rgb(0 0 0 / 0.7);
   --shadow-card-sm: 0 0.1875rem 0.5rem rgb(0 0 0 / 0.45);
-  --shadow-card-sm-selected: 0 0 0 0.125rem var(--color-accent), 0 0 0.5rem rgb(59 130 246 / 0.45);
-
-  --animate-card-float: card-float 5.5s ease-in-out infinite;
-
-  @keyframes card-float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-
-    50% {
-      transform: translateY(-0.5625rem);
-    }
-  }
+  --shadow-card-sm-selected:
+    0 0 0 0.125rem var(--color-accent), 0 0.1875rem 0.5rem rgb(0 0 0 / 0.45);
 }
 
 @layer base {
@@ -51,117 +47,124 @@
   body {
     min-height: 100svh;
     background:
-      radial-gradient(70rem 40rem at 15% -10%, rgb(37 99 235 / 0.16), transparent 70%),
-      radial-gradient(50rem 30rem at 100% 0%, rgb(14 165 233 / 0.08), transparent 70%);
-    background-attachment: fixed;
+      radial-gradient(70rem 36rem at 22% -8%, rgb(217 189 138 / 0.07), transparent 70%),
+      var(--color-page);
+  }
+
+  :focus-visible {
+    outline: 0.125rem solid var(--color-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      transition: none !important;
+    }
   }
 }
 
-@utility card-midnight {
-  --card-glow: rgb(59 130 246 / 0.42);
-  --card-highlight: rgb(147 197 253 / 0.5);
-  background-image: linear-gradient(
-    112deg,
-    #05070c 0%,
-    #0c1524 36%,
-    #123a68 50%,
-    #0a1422 64%,
-    #04060a 100%
-  );
+@utility card-obsidian {
+  --card-a: #2f2d2b;
+  --card-b: #19181a;
+  --card-c: #0d0d0e;
+  --card-ring: rgb(217 189 138 / 0.055);
+  --card-accent: #dcc08e;
+  --chip-a: #f2e2bf;
+  --chip-b: #b3965f;
+  --color-card-ink: #f6f0e4;
 }
 
-@utility card-ocean {
-  --card-glow: rgb(56 189 248 / 0.4);
-  --card-highlight: rgb(186 230 253 / 0.48);
-  background-image: linear-gradient(
-    112deg,
-    #06182f 0%,
-    #0b3263 36%,
-    #1658a8 50%,
-    #0b2f5c 64%,
-    #051428 100%
-  );
+@utility card-platinum {
+  --card-a: #f1f2f5;
+  --card-b: #cfd3da;
+  --card-c: #a8afba;
+  --card-ring: rgb(255 255 255 / 0.22);
+  --card-accent: #2f3541;
+  --chip-a: #fafafa;
+  --chip-b: #9aa1ac;
+  --color-card-ink: #14171d;
 }
 
-@utility card-graphite {
-  --card-glow: rgb(148 163 184 / 0.28);
-  --card-highlight: rgb(226 232 240 / 0.34);
-  background-image: linear-gradient(
-    112deg,
-    #0b0d11 0%,
-    #1c2028 36%,
-    #363c47 50%,
-    #1a1d24 64%,
-    #090a0d 100%
-  );
+@utility card-emerald {
+  --card-a: #16755d;
+  --card-b: #0c4c3f;
+  --card-c: #062c25;
+  --card-ring: rgb(226 205 160 / 0.06);
+  --card-accent: #e3ca97;
+  --chip-a: #f2e2bf;
+  --chip-b: #b3965f;
+  --color-card-ink: #f1faf5;
 }
 
-@utility card-steel {
-  --card-glow: rgb(165 180 200 / 0.28);
-  --card-highlight: rgb(226 232 240 / 0.32);
-  background-image: linear-gradient(
-    112deg,
-    #18222f 0%,
-    #2c3b4e 36%,
-    #4a5f79 50%,
-    #2a3849 64%,
-    #141c27 100%
-  );
+@utility card-burgundy {
+  --card-a: #8c2641;
+  --card-b: #5b172b;
+  --card-c: #340c18;
+  --card-ring: rgb(235 205 160 / 0.06);
+  --card-accent: #ebcda0;
+  --chip-a: #f2e2bf;
+  --chip-b: #b3965f;
+  --color-card-ink: #fff4ef;
 }
 
-@utility card-sheen {
-  &::before {
-    position: absolute;
-    inset: -20%;
-    content: '';
-    background: linear-gradient(
-      112deg,
-      transparent 34%,
-      var(--card-glow) 46%,
-      var(--card-highlight) 50%,
-      var(--card-glow) 54%,
-      transparent 66%
-    );
-    filter: blur(0.875rem);
-  }
+@utility card-surface {
+  background-image:
+    linear-gradient(var(--card-veil, transparent), var(--card-veil, transparent)),
+    radial-gradient(circle at 106% -16%, var(--card-ring) 0 40%, transparent 40.2%),
+    radial-gradient(circle at 106% -16%, var(--card-ring) 0 64%, transparent 64.2%),
+    linear-gradient(135deg, var(--card-a), var(--card-b) 52%, var(--card-c));
+  box-shadow:
+    inset 0 0 0 0.0625rem rgb(255 255 255 / 0.12),
+    inset 0 0.0625rem 0 rgb(255 255 255 / 0.2);
+}
 
-  &::after {
-    position: absolute;
-    inset: 0;
-    content: '';
-    background: linear-gradient(
-      112deg,
-      transparent 49.7%,
-      rgb(255 255 255 / 0.22) 50%,
-      transparent 50.3%
-    );
-  }
+@utility card-surface-muted {
+  --card-veil: rgb(8 10 16 / 0.22);
 }
 
 @utility card-glare {
   background: radial-gradient(
     circle at var(--glare-x, 50%) var(--glare-y, 50%),
-    rgb(255 255 255 / 0.26),
-    transparent 54%
+    rgb(255 255 255 / 0.12),
+    transparent 52%
   );
 }
 
 @utility card-tilt {
   transform: perspective(62.5rem) rotateX(var(--pose-x, 0deg)) rotateY(var(--pose-y, 0deg))
-    rotateZ(var(--pose-z, 0deg));
+    rotateZ(var(--pose-z, 0deg)) rotateY(var(--flip));
   transition:
     transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
     box-shadow 0.25s ease;
 
   [data-tilting] & {
     transform: perspective(62.5rem) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg))
-      scale(1.02);
+      scale(1.015) rotateY(var(--flip));
     transition:
       transform 0.09s linear,
       box-shadow 0.25s ease;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
+  [data-flipping] & {
+    transition: box-shadow 0.25s ease;
+  }
+}
+
+@utility app-panel {
+  position: relative;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.055), rgb(255 255 255 / 0.025));
+  border-radius: var(--radius-lg);
+  box-shadow:
+    inset 0 0 0 0.0625rem rgb(255 255 255 / 0.08),
+    0 1.25rem 2.5rem rgb(0 0 0 / 0.3);
+
+  &::before {
+    position: absolute;
+    inset: 0 8% auto;
+    height: 0.0625rem;
+    pointer-events: none;
+    content: '';
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.28), transparent);
   }
 }

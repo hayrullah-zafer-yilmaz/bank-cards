@@ -1,10 +1,7 @@
-import { onBeforeUnmount } from 'vue'
+import { onBeforeUnmount, watch } from 'vue'
+import { prefersReducedMotion } from '@/utils/motion'
 
-const MAX_ROTATION_DEG = 9
-
-function prefersReducedMotion(): boolean {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
+const MAX_ROTATION_DEG = 6
 
 export function useCardTilt(isEnabled: () => boolean) {
   let frame = 0
@@ -36,14 +33,18 @@ export function useCardTilt(isEnabled: () => boolean) {
     if (!frame) frame = requestAnimationFrame(paint)
   }
 
-  function onPointerLeave(event: PointerEvent) {
+  function stop() {
     cancelAnimationFrame(frame)
     frame = 0
+    if (element) delete element.dataset.tilting
     element = null
-    delete (event.currentTarget as HTMLElement).dataset.tilting
   }
 
-  onBeforeUnmount(() => cancelAnimationFrame(frame))
+  watch(isEnabled, (enabled) => {
+    if (!enabled) stop()
+  })
 
-  return { onPointerMove, onPointerLeave }
+  onBeforeUnmount(stop)
+
+  return { onPointerMove, onPointerLeave: stop }
 }

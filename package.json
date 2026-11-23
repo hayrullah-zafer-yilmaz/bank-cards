@@ -11,13 +11,12 @@
     "prettier:check": "prettier --check ."
   },
   "dependencies": {
-    "three": "^0.187.0",
+    "shatter-morph": "^0.4.1",
     "vue": "^3.5.44"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.5",
     "@types/node": "^24.19.2",
-    "@types/three": "^0.187.0",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vue/tsconfig": "^0.9.1",
     "prettier": "3.10.1",
