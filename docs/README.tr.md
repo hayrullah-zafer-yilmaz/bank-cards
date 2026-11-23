@@ -18,7 +18,7 @@ Vue 3 ve TypeScript ile geliştirilmiş, Türkçe ve İngilizce kullanılabilen 
 - **Kart türleri ve durumları:** aktif, dondurulmuş veya süresi dolmuş olabilen kredi, banka ve ön ödemeli kartlar.
 - **Responsive yerleşim:** masaüstünde yan menü ve üç sütun, tablet ve telefonda üst menü ve alt alta paneller. Ölçüler `rem`, `em`, `%`, `cqw`, `vw` ve `svh` ile yazılmıştır.
 - **Erişilebilirlik:** klavyeyle seçim, çevrilmiş ekran okuyucu etiketleri ve hareket azaltma açıkken anında kart değişimi.
-- **Hafif:** Three.js veya i18n kütüphanesi yok, gzip ile yaklaşık 62 KB JavaScript.
+- **Hafif:** Three.js veya i18n kütüphanesi yok, gzip ile yaklaşık 63 KB JavaScript.
 
 ## Teknolojiler
 

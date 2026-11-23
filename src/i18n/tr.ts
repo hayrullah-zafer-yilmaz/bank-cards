@@ -11,6 +11,8 @@ export const tr: Messages = {
     account: 'Hesabım',
     collapse: 'Menüyü daralt',
     expand: 'Menüyü genişlet',
+    repository: 'GitHub',
+    openRepository: "Projeyi GitHub'da yeni sekmede aç",
     items: {
       overview: 'Genel bakış',
       cards: 'Kartlarım',

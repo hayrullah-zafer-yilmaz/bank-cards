@@ -11,6 +11,8 @@ export const en: Messages = {
     account: 'My account',
     collapse: 'Collapse menu',
     expand: 'Expand menu',
+    repository: 'GitHub',
+    openRepository: 'Open the project on GitHub in a new tab',
     items: {
       overview: 'Overview',
       cards: 'My cards',

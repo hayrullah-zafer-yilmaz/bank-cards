@@ -15,6 +15,8 @@ export interface Messages {
     account: string
     collapse: string
     expand: string
+    repository: string
+    openRepository: string
     items: Record<NavItemId, string>
   }
   panels: {

@@ -18,7 +18,7 @@ A responsive bank card screen built with Vue 3 and TypeScript, available in Turk
 - **Card types and states:** credit, debit and prepaid cards that can be active, frozen or expired.
 - **Responsive layout:** a side menu with three columns on desktop, and a top menu with stacked panels on tablets and phones, sized with `rem`, `em`, `%`, `cqw`, `vw` and `svh`.
 - **Accessible by default:** keyboard selection, translated screen reader labels and an instant card change when reduced motion is on.
-- **Lightweight:** no Three.js or i18n library, and about 62 KB of gzipped JavaScript.
+- **Lightweight:** no Three.js or i18n library, and about 63 KB of gzipped JavaScript.
 
 ## Tech stack
 

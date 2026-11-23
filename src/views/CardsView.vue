@@ -10,6 +10,7 @@ import {
 } from '@/components/bank-card'
 import AppSidebar from '@/components/layout/AppSidebar.vue'
 import LocaleSwitcher from '@/components/layout/LocaleSwitcher.vue'
+import RepositoryLink from '@/components/layout/RepositoryLink.vue'
 import PromoCarousel from '@/components/promo/PromoCarousel.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppIcon from '@/components/ui/AppIcon.vue'
@@ -49,6 +50,7 @@ watchEffect(() => {
           <p class="mt-0.5 text-sm text-muted">{{ t.page.subtitle }}</p>
         </div>
         <div class="flex flex-none items-center gap-2.5">
+          <RepositoryLink />
           <LocaleSwitcher />
           <AppButton icon="plus" variant="primary" decorative>{{ t.actions.newCard }}</AppButton>
         </div>
