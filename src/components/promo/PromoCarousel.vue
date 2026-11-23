@@ -10,10 +10,7 @@ import { useI18n } from '@/i18n'
 import type { Promo } from '@/types/promo'
 import PromoSlide from './PromoSlide.vue'
 
-const { promos, paused = false } = defineProps<{
-  promos: Promo[]
-  paused?: boolean
-}>()
+const { promos } = defineProps<{ promos: Promo[] }>()
 
 const SLIDE_DURATION = 7000
 const SWIPE_DISTANCE = 40
@@ -38,7 +35,7 @@ const {
   handleMorphComplete,
 } = useCarousel(
   () => promos.length,
-  () => isVisible.value && !paused,
+  () => isVisible.value,
 )
 
 const activePromo = computed(() => promos[index.value])

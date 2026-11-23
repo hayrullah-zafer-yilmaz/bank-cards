@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, shallowRef, useTemplateRef, watch } from 'vue'
+import { shallowRef, useTemplateRef, watch } from 'vue'
 import { Shatter } from 'shatter-morph/vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import { useCardFlip } from '@/composables/useCardFlip'
@@ -10,7 +10,6 @@ import type { BankCardFace } from '@/types/card'
 import BankCard from './BankCard.vue'
 
 const { card } = defineProps<{ card: BankCardFace }>()
-const emit = defineEmits<{ morphing: [isMorphing: boolean] }>()
 
 const getCardId = () => card.id
 
@@ -26,9 +25,6 @@ watch(getCardId, () => {
   const shards = Math.round((offsetWidth * offsetHeight) / CARD_AREA_PER_SHARD)
   shatterOptions.value = { ...CARD_SHATTER, shards: Math.min(shards, CARD_MAX_SHARDS) }
 })
-
-watch(isMorphing, (morphing) => emit('morphing', morphing))
-onBeforeUnmount(() => emit('morphing', false))
 
 function flipCard() {
   if (!isMorphing.value) void toggleSide()

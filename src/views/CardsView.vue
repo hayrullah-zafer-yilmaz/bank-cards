@@ -23,7 +23,6 @@ import { formatConverted, getWeeklyTotalMinor } from '@/utils/card'
 const { locale, t } = useI18n()
 const selectedCardId = ref(customerCards[0]?.id ?? '')
 const displayCurrency = ref<CurrencyCode>('TRY')
-const isCardMorphing = ref(false)
 
 const selectedCard = computed(() => customerCards.find((card) => card.id === selectedCardId.value))
 
@@ -60,7 +59,7 @@ watchEffect(() => {
         class="grid flex-1 grid-cols-1 content-start gap-4 md:grid-cols-2 xl:max-h-[max(36rem,45cqw)] xl:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)_minmax(0,1.05fr)] xl:content-stretch min-[90rem]:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)_minmax(0,1fr)]"
       >
         <AppPanel class="md:col-span-2 xl:col-span-1 xl:[--card-max-height:calc(100svh-24rem)]">
-          <CardStage :card="selectedCard" @morphing="isCardMorphing = $event">
+          <CardStage :card="selectedCard">
             <CardPicker v-model="selectedCardId" :cards="customerCards" />
           </CardStage>
         </AppPanel>
@@ -94,7 +93,7 @@ watchEffect(() => {
       </div>
       <p v-else class="app-panel p-8 text-center text-muted">{{ t.page.empty }}</p>
 
-      <PromoCarousel class="mt-4" :promos="promos" :paused="isCardMorphing" />
+      <PromoCarousel class="mt-4" :promos="promos" />
     </main>
   </div>
 </template>
